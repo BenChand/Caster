@@ -120,6 +120,12 @@ class Rust(MergeRule):
             R(Text(".clone()")),
         "name space":
             R(Key("colon, colon")),
+        "dairy":
+            R(Key("hash") + Text("[derive()]") + Key("left, left")),
+        "pub":
+            R(Text("pub ")),
+        "implement":
+            R(Text("impl "))
     }
 
     extras = [

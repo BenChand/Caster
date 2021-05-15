@@ -236,6 +236,8 @@ class VSCodeNonCcrRule(MappingRule):
 
         "new terminal":
             R(Key("cs-backtick")),
+        "terminal":
+            R(Key("ca-t")),
         "terminal scroll up":
             R(Key("c-up")),
         "terminal scroll down":

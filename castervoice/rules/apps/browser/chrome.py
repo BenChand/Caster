@@ -2,6 +2,12 @@ from dragonfly import Repeat, Pause, Function, Choice, MappingRule, ShortInteger
 
 from castervoice.lib.actions import Key, Mouse, Text
 
+try:  # Try first loading from caster user directory
+    from numeric_support import word_number, numbers2
+except ImportError: 
+    from castervoice.rules.core.numbers_rules.numeric_support import word_number, numbers2
+
+
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
@@ -120,6 +126,8 @@ class ChromeRule(MappingRule):
             R(Key("a-f/20, l, e/15, enter")),
         "more tools":
             R(Key("a-f/5, l")),
+		"hyper <wnKK>":
+			R(Key("cs-space")) + Pause('50') + Function(numbers2, extra="wnKK") + R(Key("enter")),
     }
     extras = [
         Choice("nth", {
@@ -133,7 +141,8 @@ class ChromeRule(MappingRule):
                 "eighth": "8",
             }),
         ShortIntegerRef("n", 1, 100),
-        ShortIntegerRef("m", 1, 10)
+        ShortIntegerRef("m", 1, 10),
+		ShortIntegerRef("wnKK", 0, 1000000),
     ]
     defaults = {"n": 1, "m":"", "nth": ""}
 

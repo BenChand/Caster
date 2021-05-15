@@ -493,7 +493,8 @@ def initialize():
     if os.getenv("CASTER_USER_DIR") is not None:
         _USER_DIR = os.getenv("CASTER_USER_DIR")
     else:
-        _USER_DIR = user_data_dir(appname="caster", appauthor=False)
+        _USER_DIR = _BASE_PATH
+#        _USER_DIR = user_data_dir(appname="caster", appauthor=False)
     _SETTINGS_PATH = str(Path(_USER_DIR).joinpath("settings/settings.toml"))
 
     for directory in ["data", "rules", "transformers", "hooks", "sikuli", "settings"]:

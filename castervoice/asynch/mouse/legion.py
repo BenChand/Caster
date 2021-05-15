@@ -133,7 +133,7 @@ class LegionGrid(TkTransparent):
     def draw_tirg_squares(self):
         ''''''
         font = "Arial 12 bold"
-        fill_inner = "Orange"
+        fill_inner = "white"
         fill_outer = "Black"
         rect_num = 0
         for rect in self.tirg_rectangles:
@@ -145,6 +145,8 @@ class LegionGrid(TkTransparent):
             self._canvas.create_line(rect.x1, rect.y2, rect.x2, rect.y2, fill=fill_inner)
             self._canvas.create_line(rect.x1, rect.y1, rect.x1, rect.y2, fill=fill_inner)
             self._canvas.create_line(rect.x2, rect.y1, rect.x2, rect.y2, fill=fill_inner)
+            
+            self._canvas.create_rectangle(rect.x1, rect.y1, rect.x2, rect.y2, fill="Black")
 
             # text
             self._canvas.create_text(

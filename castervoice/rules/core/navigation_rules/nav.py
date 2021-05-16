@@ -95,8 +95,8 @@ class Navigation(MergeRule):
             R(Function(navigation.cut_keep_clipboard), rspec="cut"),
         "spark [<nnavi500>] [(<capitalization> <spacing> | <capitalization> | <spacing>) [(bow|bowel)]]":
             R(Function(navigation.drop_keep_clipboard), rspec="spark"),
-        "splat [<splatdir>] [<nnavi10>]":
-            R(Key("c-%(splatdir)s"), rspec="splat")*Repeat(extra="nnavi10"),
+        "chop [<splatdir>] [<nnavi10>]":
+            R(Key("c-%(splatdir)s"), rspec="chop")*Repeat(extra="nnavi10"),
         SymbolSpecs.CANCEL:
             R(Key("escape"), rspec="cancel"),
         "shackle":

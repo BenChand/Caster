@@ -20,10 +20,9 @@ except ImportError:
     from urllib.parse import unquote
 import tomlkit
 
-from dragonfly import Key, Pause, Window, get_current_engine
+from dragonfly import Key, Window, get_current_engine
 
 from castervoice.lib.clipboard import Clipboard
-from castervoice.lib import printer
 from castervoice.lib.util import guidance
 
 if six.PY2:
@@ -39,8 +38,11 @@ finally:
     from castervoice.lib import settings, printer
 
 DARWIN = sys.platform.startswith('darwin')
-LINUX =  sys.platform.startswith('linux')
+LINUX = sys.platform.startswith('linux')
 WIN32 = sys.platform.startswith('win')
+
+lasthandle = None
+
 
 # TODO: Move functions that manipulate or retrieve information from Windows to `window_mgmt_support` in navigation_rules.
 # TODO: Implement Optional exact title matching for `get_matching_windows` in Dragonfly
@@ -91,33 +93,27 @@ def minimize_window():
     '''
     Minimize foreground Window
     '''
+    global lasthandle
+    lasthandle = Window.get_foreground()
     Window.get_foreground().minimize()
 
 
-def focus_mousegrid(gridtitle):
+def close_window():
     '''
-    Loops over active windows for MouseGrid window titles. Issue #171
-    When MouseGrid window titles found focuses MouseGrid overly.
+    Close foreground Window
     '''
-    if WIN32:
-        # May not be needed for Linux/Mac OS - testing required
-        try:
-            for i in range(9):
-                matches = Window.get_matching_windows(title=gridtitle, executable="python")
-                if not matches:
-                    Pause("50").execute()
-                else:
-                    break
-            if matches:
-                for handle in matches:
-                    handle.set_foreground()
-                    break
-            else:
-                printer.out("`Title: `{}` no matching windows found".format(gridtitle))
-        except Exception as e:
-            printer.out("Error focusing MouseGrid: {}".format(e))
+    Window.get_foreground().close()
+
+
+def restore_window():
+    '''
+    Restores last minimized window triggered minimize_window.
+    '''
+    global lasthandle
+    if lasthandle is None:
+        printer.out("No previous window minimized by voice")
     else:
-        pass
+        Window.restore(lasthandle)
 
 
 def save_toml_file(data, path):
